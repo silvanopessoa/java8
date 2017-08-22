@@ -5,6 +5,7 @@ import static java.util.Comparator.comparingInt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Curso {
     private String nome;
@@ -29,9 +30,34 @@ public class Curso {
     	cursos.add(new Curso("JavaScript", 150));
     	cursos.add(new Curso("Java 8", 113));
     	cursos.add(new Curso("C", 55));
+    	
+    	double media = cursos.stream().mapToInt(c -> c.getAlunos()).average().getAsDouble();
+    	System.out.println(media);
+    	
     	//cursos.stream().sorted(comparing(Curso::getAlunos)).forEach(c->out.println(c.getAlunos()));
     	cursos.sort(comparingInt(c -> c.getAlunos()));
     	//cursos.sort(comparingInt(Curso::getAlunos));
     	cursos.forEach(c->out.println(c.getAlunos()));
+    	cursos.stream().filter(c -> c.getAlunos() > 50).forEach(c->out.println(c.getAlunos()));
+    	
+    	cursos.stream().map(c -> c.getNome()).forEach(x -> System.out.println(x));
+    	Stream<String> nomes = cursos.stream().map(Curso::getNome);
+    	
+    	System.out.println("-----------------------------------------------------------");
+    	cursos.stream()
+    	   .filter(c -> c.getAlunos() > 50)
+    	   .map(c -> c.getAlunos())
+    	   .forEach(x -> System.out.println(x));
+    	System.out.println("-----------------------------------------------------------");
+    	cursos.stream()
+    	   .filter(c -> c.getAlunos() > 50)
+    	   .map(Curso::getAlunos)
+    	   .forEach(System.out::println);
+    	System.out.println("-----------------------------------------------------------");
+    	
+    	cursos.stream()
+    	   .filter(c -> c.getAlunos() > 50).findFirst().ifPresent(c -> System.out.println(c.alunos));
+    	System.out.println("-----------------------------------------------------------");
+
 	}
 }
